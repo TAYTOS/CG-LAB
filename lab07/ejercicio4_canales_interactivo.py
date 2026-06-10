@@ -21,6 +21,15 @@ img = cv2.imread(os.path.join(output_dir, "combinada.jpg"))
 if img is None:
     raise FileNotFoundError(f"No se encontró {os.path.join(output_dir, 'combinada.jpg')}. Ejecutar ejercicio 2 primero.")
 
+# Evitar imágenes excesivamente grandes: redimensionar si es necesario
+MAX_DIM = 900
+h, w = img.shape[:2]
+if max(h, w) > MAX_DIM:
+    scale = MAX_DIM / float(max(h, w))
+    new_w, new_h = int(w * scale), int(h * scale)
+    img = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
+    print(f"Imagen muy grande; redimensionada a {new_w}x{new_h}.")
+
 show_r = True
 show_g = True
 show_b = True
